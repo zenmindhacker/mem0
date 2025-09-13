@@ -7,8 +7,7 @@ WORKDIR /usr/src/openmemory
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY config.json .
 COPY . .
 
-EXPOSE 8765
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8765"]
+EXPOSE 10000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
