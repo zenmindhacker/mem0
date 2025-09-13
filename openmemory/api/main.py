@@ -87,3 +87,8 @@ app.include_router(backup_router)
 
 # Add pagination support
 add_pagination(app)
+
+# Health check endpoint for Render
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "timestamp": datetime.datetime.now(datetime.UTC).isoformat()}

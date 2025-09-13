@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: mem0-openmemory-api
+    runtime: docker
+    dockerfilePath: ./openmemory/api/Dockerfile
+    dockerContext: ./openmemory/api
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false # Will be set in Render dashboard
+      - key: USER
+        value: cian-kenshin # Default user ID
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mem0-db
+          property: connectionString
+      - key: PORT
+        value: 8765
+    healthCheckPath: /health
+    autoDeploy: false # Set to true if you want automatic deploys
+
+databases:
+  - name: mem0-db
+    plan: free # or 'starter' for production
+    databaseName: mem0
+    user: mem0user
+
+# Optional: Add the UI as a static site if needed
+# - type: static
+#   name: mem0-openmemory-ui
+#   buildCommand: cd openmemory/ui && npm install && npm run build
+#   staticPublishPath: openmemory/ui/out
+#   envVars:
+#     - key: NEXT_PUBLIC_API_URL
+#       value: https://mem0-openmemory-api.onrender.com
+#     - key: NEXT_PUBLIC_USER_ID
+#       value: cian-kenshin
